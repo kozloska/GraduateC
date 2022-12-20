@@ -14,7 +14,12 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        Emitter emitter = new Emitter(); // добавили эмиттер
+        List<Emitter> emitters = new List<Emitter>();
+        Emitter emitter; // добавим поле для эмиттера
+
+        GravityPoint point1; // добавил поле под первую точку
+        GravityPoint point2; // добавил поле под вторую точку
+
 
         public Form1()
         {
@@ -23,7 +28,7 @@ namespace WindowsFormsApp1
             // привязал изображение
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
 
-            emitter = new TopEmitter
+           /* emitter = new TopEmitter
             {
                 Width = picDisplay.Width,
                 GravitationY = 0.25f
@@ -46,9 +51,38 @@ namespace WindowsFormsApp1
             {
                 X = (float)(picDisplay.Width * 0.75),
                 Y = picDisplay.Height / 2
-            });
-        }
+            });*/
 
+            this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
+            {
+                Direction = 0,
+                Spreading = 10,
+                SpeedMin = 10,
+                SpeedMax = 10,
+                ColorFrom = Color.Gold,
+                ColorTo = Color.FromArgb(0, Color.Red),
+                ParticlesPerTick = 10,
+                X = picDisplay.Width / 2,
+                Y = picDisplay.Height / 2,
+            };
+            point1 = new GravityPoint
+            {
+                X = picDisplay.Width / 2 + 100,
+                Y = picDisplay.Height / 2,
+            };
+            point2 = new GravityPoint
+            {
+                X = picDisplay.Width / 2 - 100,
+                Y = picDisplay.Height / 2,
+            };
+
+            // привязываем поля к эмиттеру
+            emitter.impactPoints.Add(point1);
+            emitter.impactPoints.Add(point2);
+
+            emitters.Add(this.emitter); // все равно добавляю в список emitters, чтобы он рендерился и обновлялся
+        }
+    
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
@@ -69,9 +103,37 @@ namespace WindowsFormsApp1
 
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
         {
-            // в обработчике заносим положение мыши в переменные для хранения положения мыши
-            emitter.MousePositionX = e.X;
-            emitter.MousePositionY = e.Y;
+            // это не трогаем
+            foreach (var emitter in emitters)
+            {
+                emitter.MousePositionX = e.X;
+                emitter.MousePositionY = e.Y;
+            }
+
+            // а тут передаем положение мыши, в положение гравитона
+            point2.X = e.X;
+            point2.Y = e.Y;
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            lblDirection.Text = $"{tbDirection.Value}°"; // добавил вывод значения
+             emitter.Direction = tbDirection.Value; // направлению эмиттера присваиваем значение ползунка
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trackBar1_Scroll_1(object sender, EventArgs e)
+        {
+            point1.Power = tbGraviton1.Value;
+        }
+
+        private void trackBar1_Scroll_2(object sender, EventArgs e)
+        {
+            point2.Power = tbGraviton2.Value;
         }
     }
 }
