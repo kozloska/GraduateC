@@ -15,7 +15,7 @@ namespace WindowsFormsApp1
         public int MousePositionX;// добавляем переменные для хранения положения мыши
         public int MousePositionY;// добавляем переменные для хранения положения мыши
         public float GravitationX = 0;
-        public float GravitationY = 0;
+        public float GravitationY = 1;
         public int X; // координата X центра эмиттера, будем ее использовать вместо MousePositionX
         public int Y; // соответствующая координата Y 
         public int Direction = 0; // вектор направления в градусах куда сыпет эмиттер
@@ -62,35 +62,30 @@ namespace WindowsFormsApp1
 
         public void UpdateState()
         {
-            int particlesToCreate = ParticlesPerTick;
+            int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик
 
-            foreach (var particle in particles.ToList())
+
+            foreach (var particle in particles)
             {
-
-                if (particle.Life <= 0)
+                particle.Life -= 1;
+                if (particle.Life < 0)
                 {
-                    if (particlesToCreate > 0)
-                        particles.Remove(particle);
+                    particlesToCreate -= 1;
+                    ResetParticle(particle);
                 }
                 else
                 {
-                    particle.X += particle.SpeedX;
-                    particle.Y += particle.SpeedY;
-
-                    particle.Life--;
-                    foreach (var point in impactPoints)
-                    {
-                        point.ImpactParticle(particle);
-                    }
-
+                    // гравитация воздействует на вектор скорости, поэтому пересчитываем его
                     particle.SpeedX += GravitationX;
                     particle.SpeedY += GravitationY;
+                    particle.X += particle.SpeedX;
+                    particle.Y += particle.SpeedY;
                 }
             }
 
             while (particlesToCreate >= 1)
             {
-                particlesToCreate--;
+                particlesToCreate -= 1;
                 var particle = CreateParticle();
                 ResetParticle(particle);
                 particles.Add(particle);
@@ -104,11 +99,6 @@ namespace WindowsFormsApp1
             foreach (var particle in particles)
             {
                 particle.Draw(g);
-            }
-            // рисую точки притяжения красными кружочками
-            foreach (var point in impactPoints) // тут теперь  impactPoints
-            {
-                point.Render(g); // это добавили
             }
         }
     }

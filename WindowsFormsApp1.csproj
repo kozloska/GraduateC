@@ -57,6 +57,7 @@
     <Compile Include="Gravity\GravityPoint.cs" />
     <Compile Include="Gravity\IImpactPoint.cs" />
     <Compile Include="ob\Particle.cs" />
+    <Compile Include="ob\Portal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ob\TopEmitter.cs" />
