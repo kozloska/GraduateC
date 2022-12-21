@@ -18,7 +18,7 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        public int task = 4;
+        public int task = 1;
         List<Emitter> emitters = new List<Emitter>();
         Emitter emitter; // добавим поле для эмиттера
         Portal portal = null;
@@ -178,8 +178,8 @@ namespace WindowsFormsApp1
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            lblDirection.Text = $"{tbDirection.Value}°"; // добавил вывод значения
-             emitter.Direction = tbDirection.Value; // направлению эмиттера присваиваем значение ползунка
+            emitter.Spreading = tbSpreading.Value;
+            lblSpreading.Text = tbSpreading.Value.ToString();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -189,12 +189,16 @@ namespace WindowsFormsApp1
 
         private void trackBar1_Scroll_1(object sender, EventArgs e)
         {
-            
+            emitter.Direction = tbDirection.Value;
+            lblDirection.Text = tbDirection.Value.ToString();
         }
 
         private void trackBar1_Scroll_2(object sender, EventArgs e)
         {
-            
+            //минимальная скорость = 20% от максимальной
+            emitter.SpeedMin = (int)(tbSpeed.Value * 0.2f);
+            emitter.SpeedMax = tbSpeed.Value;
+            lblSpeed.Text = tbSpeed.Value.ToString();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -210,6 +214,53 @@ namespace WindowsFormsApp1
         private void button1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trackBar1_Scroll_3(object sender, EventArgs e)
+        {
+            //минимальная продолжительность жизни = 25% от максимума
+            emitter.LifeMin = tbLife.Value / 4;
+            emitter.LifeMax = tbLife.Value;
+            lblLife.Text = tbLife.Value.ToString();
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            if (portal != null)
+            {
+                portal.radius = (float)tbRadiusPortal.Value;
+                lblRadiusPortal.Text = tbRadiusPortal.Value.ToString();
+            }
         }
     }
 }
