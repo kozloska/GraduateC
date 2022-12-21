@@ -28,4 +28,34 @@ namespace WindowsFormsApp1
                 );
         }
     }
+    public class Circle : IImpactPoint
+    {
+        public int radius;
+        public static Color color = Color.Yellow;
+
+        public override void Render(Graphics g)
+        {
+            //Нарисовать точку
+            g.DrawEllipse(
+                   new Pen(color, 3),
+                   X - radius / 2,
+                   Y - radius / 2,
+                   radius,
+                   radius
+               );
+        }
+        public override void ImpactParticle(Particle particle)
+        {
+            float partX = X - particle.X;
+            float partY = Y - particle.Y;
+
+            double r = Math.Sqrt(partX * partX + partY * partY);
+            //Если частица внутри точки
+            if (r < radius && particle.Life > 0)
+            {
+                //Перекрасить частицу
+                (particle as ParticleColorful).FromColor = color;
+            }
+        }
+    }
 }

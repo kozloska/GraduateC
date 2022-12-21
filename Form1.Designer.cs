@@ -50,19 +50,25 @@
             this.lblSpeed = new System.Windows.Forms.Label();
             this.lblLife = new System.Windows.Forms.Label();
             this.lblRadiusPortal = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblTick = new System.Windows.Forms.Label();
+            this.tbTick = new System.Windows.Forms.TrackBar();
+            this.button3 = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpreading)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbLife)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbRadiusPortal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbTick)).BeginInit();
             this.SuspendLayout();
             // 
             // picDisplay
             // 
             this.picDisplay.Location = new System.Drawing.Point(12, 50);
             this.picDisplay.Name = "picDisplay";
-            this.picDisplay.Size = new System.Drawing.Size(746, 515);
+            this.picDisplay.Size = new System.Drawing.Size(746, 544);
             this.picDisplay.TabIndex = 0;
             this.picDisplay.TabStop = false;
             this.picDisplay.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -145,6 +151,7 @@
             this.button5.TabIndex = 8;
             this.button5.Text = "Задание 5";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // label1
             // 
@@ -204,7 +211,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Broadway", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(774, 364);
+            this.label5.Location = new System.Drawing.Point(775, 447);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(142, 26);
             this.label5.TabIndex = 15;
@@ -213,7 +220,7 @@
             // 
             // tbRadiusPortal
             // 
-            this.tbRadiusPortal.Location = new System.Drawing.Point(776, 402);
+            this.tbRadiusPortal.Location = new System.Drawing.Point(775, 485);
             this.tbRadiusPortal.Maximum = 80;
             this.tbRadiusPortal.Minimum = 20;
             this.tbRadiusPortal.Name = "tbRadiusPortal";
@@ -225,7 +232,7 @@
             // lblDirection
             // 
             this.lblDirection.AutoSize = true;
-            this.lblDirection.Location = new System.Drawing.Point(958, 58);
+            this.lblDirection.Location = new System.Drawing.Point(992, 58);
             this.lblDirection.Name = "lblDirection";
             this.lblDirection.Size = new System.Drawing.Size(14, 16);
             this.lblDirection.TabIndex = 17;
@@ -234,7 +241,7 @@
             // lblSpreading
             // 
             this.lblSpreading.AutoSize = true;
-            this.lblSpreading.Location = new System.Drawing.Point(958, 139);
+            this.lblSpreading.Location = new System.Drawing.Point(992, 139);
             this.lblSpreading.Name = "lblSpreading";
             this.lblSpreading.Size = new System.Drawing.Size(14, 16);
             this.lblSpreading.TabIndex = 18;
@@ -244,7 +251,7 @@
             // lblSpeed
             // 
             this.lblSpeed.AutoSize = true;
-            this.lblSpeed.Location = new System.Drawing.Point(958, 219);
+            this.lblSpeed.Location = new System.Drawing.Point(992, 219);
             this.lblSpeed.Name = "lblSpeed";
             this.lblSpeed.Size = new System.Drawing.Size(14, 16);
             this.lblSpeed.TabIndex = 19;
@@ -253,7 +260,7 @@
             // lblLife
             // 
             this.lblLife.AutoSize = true;
-            this.lblLife.Location = new System.Drawing.Point(958, 296);
+            this.lblLife.Location = new System.Drawing.Point(992, 296);
             this.lblLife.Name = "lblLife";
             this.lblLife.Size = new System.Drawing.Size(14, 16);
             this.lblLife.TabIndex = 20;
@@ -262,17 +269,62 @@
             // lblRadiusPortal
             // 
             this.lblRadiusPortal.AutoSize = true;
-            this.lblRadiusPortal.Location = new System.Drawing.Point(958, 374);
+            this.lblRadiusPortal.Location = new System.Drawing.Point(992, 455);
             this.lblRadiusPortal.Name = "lblRadiusPortal";
             this.lblRadiusPortal.Size = new System.Drawing.Size(14, 16);
             this.lblRadiusPortal.TabIndex = 21;
             this.lblRadiusPortal.Text = "0";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Broadway", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(775, 367);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(204, 26);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Количество частиц";
+            this.label6.Click += new System.EventHandler(this.label6_Click_1);
+            // 
+            // lblTick
+            // 
+            this.lblTick.AutoSize = true;
+            this.lblTick.Location = new System.Drawing.Point(992, 375);
+            this.lblTick.Name = "lblTick";
+            this.lblTick.Size = new System.Drawing.Size(14, 16);
+            this.lblTick.TabIndex = 23;
+            this.lblTick.Text = "0";
+            // 
+            // tbTick
+            // 
+            this.tbTick.Location = new System.Drawing.Point(780, 397);
+            this.tbTick.Minimum = 1;
+            this.tbTick.Name = "tbTick";
+            this.tbTick.Size = new System.Drawing.Size(126, 56);
+            this.tbTick.TabIndex = 24;
+            this.tbTick.Value = 1;
+            this.tbTick.Scroll += new System.EventHandler(this.tbTick_Scroll);
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button3.Location = new System.Drawing.Point(780, 531);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(226, 63);
+            this.button3.TabIndex = 25;
+            this.button3.Text = "Выбрать цвет круга";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_2);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 578);
+            this.ClientSize = new System.Drawing.Size(1018, 596);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.tbTick);
+            this.Controls.Add(this.lblTick);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.lblRadiusPortal);
             this.Controls.Add(this.lblLife);
             this.Controls.Add(this.lblSpeed);
@@ -295,12 +347,14 @@
             this.Controls.Add(this.picDisplay);
             this.Name = "Form1";
             this.Text = " ";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpreading)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbLife)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbRadiusPortal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbTick)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,6 +383,11 @@
         private System.Windows.Forms.Label lblSpeed;
         private System.Windows.Forms.Label lblLife;
         private System.Windows.Forms.Label lblRadiusPortal;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblTick;
+        private System.Windows.Forms.TrackBar tbTick;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ColorDialog colorDialog1;
     }
 }
 

@@ -20,7 +20,9 @@ namespace WindowsFormsApp1
     {
         public int task = 1;
         List<Emitter> emitters = new List<Emitter>();
+        List<Circle> circles = new List<Circle>();
         Emitter emitter; // добавим поле для эмиттера
+        Emitter emitter2; // добавим поле для эмиттера
         Portal portal = null;
 
       //  GravityPoint point1; // добавил поле под первую точку
@@ -34,18 +36,25 @@ namespace WindowsFormsApp1
             // привязал изображение
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
 
-            this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
+                emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
+                {
+                    Direction = 0,
+                    Spreading = 10,
+                    SpeedMin = 10,
+                    SpeedMax = 10,
+                    ColorFrom = Color.Gold,
+                    ColorTo = Color.FromArgb(0, Color.Red),
+                    ParticlesPerTick = 10,
+                    X = picDisplay.Width / 2,
+                    Y = picDisplay.Height / 2,
+                };
+            emitter2 = new TopEmitter
             {
-                Direction = 0,
-                Spreading = 10,
-                SpeedMin = 10,
-                SpeedMax = 10,
-                ColorFrom = Color.Gold,
-                ColorTo = Color.FromArgb(0, Color.Red),
-                ParticlesPerTick = 10,
-                X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 2,
+                Width = picDisplay.Width,
+                GravitationY = 0.25f
             };
+            emitters.Add(this.emitter2);
+
         }
 
        /* private void task1(Graphics g)
@@ -100,29 +109,52 @@ namespace WindowsFormsApp1
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            emitter.UpdateState(); // каждый тик обновляем систему
 
-            using (var g = Graphics.FromImage(picDisplay.Image))
+            if (task == 4)
             {
-                if(task == 4)
+                emitter.UpdateState(); // каждый тик обновляем систему
+                
+                using (var g = Graphics.FromImage(picDisplay.Image))
                 {
-                    if (portal != null)
-                    {
-
-                        foreach (var particle in emitter.particles)
+                   
+                        if (portal != null)
                         {
-                            portal.Overlap(particle);
-                        }
-                        g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
-                        emitter.Render(g);
-                        portal.Draw(g);  // рендерим систему
-                                           
-                    }
-                }
-               
-            }
 
-            picDisplay.Invalidate();
+                            foreach (var particle in emitter.particles)
+                            {
+                                portal.Overlap(particle);
+                            }
+                            g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
+                            emitter.Render(g);
+                            portal.Draw(g);  // рендерим систему
+
+
+                        }
+                    
+                    picDisplay.Invalidate();
+
+                }
+            }
+            if(task == 5)
+            {
+                emitter2.UpdateState();
+                using (var g = Graphics.FromImage(picDisplay.Image))
+                {
+
+                    foreach (var circle in circles)
+                    {
+                        circle.Render(g);
+                    }
+                    g.Clear(Color.Black);
+                    emitter2.Render(g);
+                    foreach(var circle in circles)
+                    {
+                        circle.Render(g);
+                    }
+                    picDisplay.Invalidate();
+                }
+              
+            }
         }
 
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
@@ -174,12 +206,56 @@ namespace WindowsFormsApp1
                     }
                 }
             }
+            if (task == 5)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                        int x = e.X;
+                        int y = e.Y;
+                    circles.Add(new Circle
+                    {
+                        X = x,
+                        Y = y,
+                        radius = 20
+                    });
+                    
+                }
+                if (e.Button == MouseButtons.Right)
+                {
+                    
+                        foreach (var p in emitter2.impactPoints)
+                        {
+                            if (p is Circle)
+                        {
+                                var x = (p as Circle).X - e.X;
+                                var y = (p as Circle).Y - e.Y;
+                                double r = Math.Sqrt(x * x + y * y);
+                                if (r <= (p as Circle).radius/ 2)
+                                {
+                                    circles.Remove((p as Circle));
+                                    break;
+                                }
+                            }
+                        }
+                    
+                    
+                }
+            }   
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            emitter.Spreading = tbSpreading.Value;
-            lblSpreading.Text = tbSpreading.Value.ToString();
+
+            if (task == 4)
+            {
+                emitter.Spreading = tbSpreading.Value;
+                lblSpreading.Text = tbSpreading.Value.ToString();
+            }
+            if(task == 5)
+            {
+                emitter2.Spreading = tbSpreading.Value;
+                lblSpreading.Text = tbSpreading.Value.ToString();
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -189,16 +265,37 @@ namespace WindowsFormsApp1
 
         private void trackBar1_Scroll_1(object sender, EventArgs e)
         {
-            emitter.Direction = tbDirection.Value;
-            lblDirection.Text = tbDirection.Value.ToString();
+
+            if (task == 4)
+            {
+                emitter.Direction = tbDirection.Value;
+                lblDirection.Text = tbDirection.Value.ToString();
+            }
+
+            if (task == 5)
+            {
+                emitter2.Direction = tbDirection.Value;
+                lblDirection.Text = tbDirection.Value.ToString();
+            }
         }
 
         private void trackBar1_Scroll_2(object sender, EventArgs e)
         {
-            //минимальная скорость = 20% от максимальной
-            emitter.SpeedMin = (int)(tbSpeed.Value * 0.2f);
-            emitter.SpeedMax = tbSpeed.Value;
-            lblSpeed.Text = tbSpeed.Value.ToString();
+
+            if (task == 4)
+            {
+                //минимальная скорость = 20% от максимальной
+                emitter.SpeedMin = (int)(tbSpeed.Value * 0.2f);
+                emitter.SpeedMax = tbSpeed.Value;
+                lblSpeed.Text = tbSpeed.Value.ToString();
+            }
+            if (task == 5)
+            {
+                //минимальная скорость = 20% от максимальной
+                emitter2.SpeedMin = (int)(tbSpeed.Value * 0.2f);
+                emitter2.SpeedMax = tbSpeed.Value;
+                lblSpeed.Text = tbSpeed.Value.ToString();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -248,19 +345,91 @@ namespace WindowsFormsApp1
 
         private void trackBar1_Scroll_3(object sender, EventArgs e)
         {
-            //минимальная продолжительность жизни = 25% от максимума
-            emitter.LifeMin = tbLife.Value / 4;
-            emitter.LifeMax = tbLife.Value;
-            lblLife.Text = tbLife.Value.ToString();
+
+            if (task == 4)
+            {
+                //минимальная продолжительность жизни = 25% от максимума
+                emitter.LifeMin = tbLife.Value / 4;
+                emitter.LifeMax = tbLife.Value;
+                lblLife.Text = tbLife.Value.ToString();
+            }
+            if (task == 5)
+            {
+                //минимальная продолжительность жизни = 25% от максимума
+                emitter2.LifeMin = tbLife.Value / 2;
+                emitter2.LifeMax = tbLife.Value;
+                lblLife.Text = tbLife.Value.ToString();
+            }
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
-            if (portal != null)
+            if (task == 4)
             {
-                portal.radius = (float)tbRadiusPortal.Value;
-                lblRadiusPortal.Text = tbRadiusPortal.Value.ToString();
+                if (portal != null)
+                {
+                    portal.radius = (float)tbRadiusPortal.Value;
+                    lblRadiusPortal.Text = tbRadiusPortal.Value.ToString();
+                }
             }
+        }
+
+        private void label6_Click_1(object sender, EventArgs e)
+        {
+            if (task == 4)
+            {
+                emitter.ParticlesPerTick = tbTick.Value;
+                lblTick.Text = tbTick.Value.ToString();
+            }
+        }
+
+        private void tbTick_Scroll(object sender, EventArgs e)
+        {
+            if (task == 4)
+            {
+                emitter.ParticlesPerTick = tbTick.Value;
+                lblTick.Text = tbTick.Value.ToString();
+            }
+            if (task == 5)
+            {
+                emitter2.ParticlesPerTick = tbTick.Value;
+                lblTick.Text = tbTick.Value.ToString();
+            }
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+
+            if (task == 4)
+            {
+                colorDialog1.ShowDialog();
+                portal.color = colorDialog1.Color;
+            }
+            if (task == 5)
+            {
+                colorDialog1.ShowDialog();
+                portal.color = colorDialog1.Color;
+            }
+        }
+
+        private void button3_Click_2(object sender, EventArgs e)
+        {
+
+            if (task == 4)
+            {
+                colorDialog1.ShowDialog();
+                portal.color = colorDialog1.Color;
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            task = 5;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

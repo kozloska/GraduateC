@@ -15,19 +15,20 @@ namespace WindowsFormsApp1.ob
         public float radius = 40;
         //направление нчастиц на выходе из портала
         public float direction;
+        public Color color = Color.Red;
 
         //действие на пересечение частицы с входом портала
         public Action<Particle> OnPortalParticle = null;
 
         public void Draw(Graphics g)
         {
-            g.DrawEllipse(new Pen(Color.Red),
+            g.DrawEllipse(new Pen(color),
                 input.X - radius, input.Y - radius,
                 radius * 2, radius * 2);
-            g.DrawEllipse(new Pen(Color.Red),
+            g.DrawEllipse(new Pen(color),
                 output.X - radius, output.Y - radius,
                 radius * 2, radius * 2);
-            g.DrawLine(new Pen(Color.Red, 2),
+            g.DrawLine(new Pen(color, 2),
                 input.X, input.Y,
                 output.X, output.Y);
         }
