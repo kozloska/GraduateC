@@ -9,6 +9,7 @@ namespace WindowsFormsApp1
 {
     public class Emitter
     {
+        public int task = 0;
         public int ParticlesCount = 500;
         public List<Particle> particles = new List<Particle>();
         public List<IImpactPoint> impactPoints = new List<IImpactPoint>(); // тут буду хранится точки притяжения
@@ -70,6 +71,11 @@ namespace WindowsFormsApp1
                 particle.Life -= 1;
                 if (particle.Life < 0)
                 {
+                    if (task == 2)
+                    {
+                        (particle as ParticleColorful).FromColor = Color.White;
+                    }
+
                     particlesToCreate -= 1;
                     ResetParticle(particle);
                 }

@@ -55,6 +55,8 @@
             this.tbTick = new System.Windows.Forms.TrackBar();
             this.button3 = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.lblY = new System.Windows.Forms.Label();
+            this.tbY = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpreading)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).BeginInit();
@@ -62,13 +64,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbLife)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbRadiusPortal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbTick)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbY)).BeginInit();
             this.SuspendLayout();
             // 
             // picDisplay
             // 
             this.picDisplay.Location = new System.Drawing.Point(12, 50);
             this.picDisplay.Name = "picDisplay";
-            this.picDisplay.Size = new System.Drawing.Size(746, 544);
+            this.picDisplay.Size = new System.Drawing.Size(746, 615);
             this.picDisplay.TabIndex = 0;
             this.picDisplay.TabStop = false;
             this.picDisplay.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -211,7 +214,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Broadway", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(775, 447);
+            this.label5.Location = new System.Drawing.Point(775, 512);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(142, 26);
             this.label5.TabIndex = 15;
@@ -220,7 +223,7 @@
             // 
             // tbRadiusPortal
             // 
-            this.tbRadiusPortal.Location = new System.Drawing.Point(775, 485);
+            this.tbRadiusPortal.Location = new System.Drawing.Point(780, 541);
             this.tbRadiusPortal.Maximum = 80;
             this.tbRadiusPortal.Minimum = 20;
             this.tbRadiusPortal.Name = "tbRadiusPortal";
@@ -269,7 +272,7 @@
             // lblRadiusPortal
             // 
             this.lblRadiusPortal.AutoSize = true;
-            this.lblRadiusPortal.Location = new System.Drawing.Point(992, 455);
+            this.lblRadiusPortal.Location = new System.Drawing.Point(992, 522);
             this.lblRadiusPortal.Name = "lblRadiusPortal";
             this.lblRadiusPortal.Size = new System.Drawing.Size(14, 16);
             this.lblRadiusPortal.TabIndex = 21;
@@ -308,19 +311,44 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button3.Location = new System.Drawing.Point(780, 531);
+            this.button3.Location = new System.Drawing.Point(780, 437);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(226, 63);
             this.button3.TabIndex = 25;
-            this.button3.Text = "Выбрать цвет круга";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_2);
+            // 
+            // lblY
+            // 
+            this.lblY.AutoSize = true;
+            this.lblY.Font = new System.Drawing.Font("Broadway", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblY.Location = new System.Drawing.Point(777, 580);
+            this.lblY.Name = "lblY";
+            this.lblY.Size = new System.Drawing.Size(143, 26);
+            this.lblY.TabIndex = 26;
+            this.lblY.Text = "Направление";
+            this.lblY.Visible = false;
+            this.lblY.Click += new System.EventHandler(this.label7_Click);
+            // 
+            // tbY
+            // 
+            this.tbY.Location = new System.Drawing.Point(780, 609);
+            this.tbY.Maximum = 450;
+            this.tbY.Minimum = 50;
+            this.tbY.Name = "tbY";
+            this.tbY.Size = new System.Drawing.Size(140, 56);
+            this.tbY.TabIndex = 27;
+            this.tbY.Value = 50;
+            this.tbY.Visible = false;
+            this.tbY.Scroll += new System.EventHandler(this.tbY_Scroll);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1018, 596);
+            this.ClientSize = new System.Drawing.Size(1021, 685);
+            this.Controls.Add(this.tbY);
+            this.Controls.Add(this.lblY);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.tbTick);
             this.Controls.Add(this.lblTick);
@@ -355,6 +383,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbLife)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbRadiusPortal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbTick)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbY)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -388,6 +417,8 @@
         private System.Windows.Forms.TrackBar tbTick;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Label lblY;
+        private System.Windows.Forms.TrackBar tbY;
     }
 }
 

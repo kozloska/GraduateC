@@ -30,8 +30,9 @@ namespace WindowsFormsApp1
     }
     public class Circle : IImpactPoint
     {
-        public int radius;
-        public static Color color = Color.Yellow;
+        public float radius;
+        public Color color;
+        public Action<Particle> OnCirclelParticle = null;
 
         public override void Render(Graphics g)
         {
@@ -46,16 +47,17 @@ namespace WindowsFormsApp1
         }
         public override void ImpactParticle(Particle particle)
         {
-            float partX = X - particle.X;
-            float partY = Y - particle.Y;
+            float gX = X - particle.X;
+            float gY = Y - particle.Y;
+            double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
 
-            double r = Math.Sqrt(partX * partX + partY * partY);
-            //Если частица внутри точки
-            if (r < radius && particle.Life > 0)
+
+            if (r + particle.Radius < radius / 2)  // если частица оказалось внутри окружности
             {
-                //Перекрасить частицу
                 (particle as ParticleColorful).FromColor = color;
             }
+
+
         }
     }
 }
