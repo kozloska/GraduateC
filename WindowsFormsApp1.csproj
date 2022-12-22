@@ -53,8 +53,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gravity\AntiGravityPoint.cs" />
-    <Compile Include="Gravity\GravityPoint.cs" />
     <Compile Include="Gravity\IImpactPoint.cs" />
     <Compile Include="ob\Particle.cs" />
     <Compile Include="ob\Portal.cs" />
