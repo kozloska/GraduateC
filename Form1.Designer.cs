@@ -104,7 +104,7 @@
             // tbSpeed
             // 
             this.tbSpeed.Location = new System.Drawing.Point(779, 240);
-            this.tbSpeed.Maximum = 50;
+            this.tbSpeed.Maximum = 60;
             this.tbSpeed.Minimum = 1;
             this.tbSpeed.Name = "tbSpeed";
             this.tbSpeed.Size = new System.Drawing.Size(137, 56);
@@ -119,7 +119,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(182, 32);
             this.button1.TabIndex = 5;
-            this.button1.Text = "Задание 1";
+            this.button1.Text = "Задание 8";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -202,7 +202,7 @@
             // tbLife
             // 
             this.tbLife.Location = new System.Drawing.Point(779, 317);
-            this.tbLife.Maximum = 160;
+            this.tbLife.Maximum = 260;
             this.tbLife.Minimum = 40;
             this.tbLife.Name = "tbLife";
             this.tbLife.Size = new System.Drawing.Size(137, 56);
@@ -301,6 +301,7 @@
             // tbTick
             // 
             this.tbTick.Location = new System.Drawing.Point(780, 397);
+            this.tbTick.Maximum = 40;
             this.tbTick.Minimum = 1;
             this.tbTick.Name = "tbTick";
             this.tbTick.Size = new System.Drawing.Size(126, 56);

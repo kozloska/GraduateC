@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -26,7 +27,8 @@ namespace WindowsFormsApp1
         TopEmitter emitter2; // добавим поле для эмиттера
         Emitter emitter3; // добавим поле для эмиттера
         Portal portal = null;
-        Circle circle1;
+        Radar radar;
+
 
 
         //  GravityPoint point1; // добавил поле под первую точку
@@ -39,6 +41,7 @@ namespace WindowsFormsApp1
 
             // привязал изображение
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
+            picDisplay.MouseWheel += picDisplay_MouseWheel;
 
             emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
             {
@@ -97,124 +100,68 @@ namespace WindowsFormsApp1
                 radius = 35,
                 color = Color.Pink
             });
-            circle1 = (new Circle
+            radar = new Radar
             {
-                X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 2,
-                radius = 100,
-                color = Color.Pink
-            });
-            emitter3 = new Emitter // создаю эмиттер и привязываю его к полю emitter
+                X = 50,
+                Y = 50,
+                R = 75,
+            };
+            emitter3 = new Emitter
             {
-                Direction = 0,
-                Spreading = 10,
-                SpeedMin = 10,
-                SpeedMax = 10,
-                //   ColorFrom = Color.Gold,
-                //ColorFrom = Color.BlueViolet,
-                // ColorTo = Color.FromArgb(0, Color.AliceBlue),
+                Direction = 90,
+                Spreading = 90,
+                SpeedMin = 8,
+                SpeedMax = 25,
+                ParticlesPerTick = 10,
+                LifeMax = 120,
+
+                //       ColorFrom = Color.Gold,
                 ColorFrom = Color.Gold,
                 ColorTo = Color.FromArgb(0, Color.Red),
-                //  ColorFrom = Color.Pink,
-                //  ColorTo = Color.FromArgb(0, Color.),
-                ParticlesPerTick = 1,
+
                 X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 2 + Ycirlce / 2,
+                Y = picDisplay.Height / 2,
+
             };
+            
         }
-        int Xcirlce = 100;
-        int Ycirlce = 100;
-
-        private void task1(Graphics g)
-        {
-            int Xvector1, Xvector2, Yvector1, Yvector2;
-            double angle;
-            int tb1 = 3, tb2 = 3, t5b = 1;
-            int Xcirlce = 100;
-            int Ycirlce = 100;
-            double pos = 1, speed = 0.1, m, n;
-            //emitter.GravitationY = (float)(0.5);
-            //tbdValue1 = tbDirection.Value;
-            //speedV1 = speedBar.Value;
-            //tb1 = trackBar2.Value;
-
-            g.DrawEllipse(new Pen(Color.LightCoral, 4), picDisplay.Width / 2 - Xcirlce / 2, picDisplay.Height / 2 - Ycirlce / 2 + 1, Xcirlce, Ycirlce);
-            pos = pos + speed;
-
-            emitter.X = (int)(picDisplay.Width / 2 + Xcirlce / 2 * Math.Cos(pos));
-            emitter.Y = (int)(picDisplay.Height / 2 + Ycirlce / 2 * Math.Sin(pos));
-            //координаты вектора радиуса
-            Xvector1 = picDisplay.Width / 2 - emitter.X;
-            Yvector1 = picDisplay.Height / 2 - emitter.Y;
-            //координаты вектора касательной
-            //   x = 0-(emitter.Y - picDisplay.Height / 2);
-            //   y = emitter.X - picDisplay.Width / 2;
-            Yvector2 = -5;
-            Xvector2 = 5 - emitter.Y;
-            //  angle = (180 /Math.PI)*Math.Acos(Math.Cos((Yvector1*Yvector2)/(Math.Sqrt(Math.Pow(Yvector2, 2) )* Math.Sqrt(Math.Pow(Xvector1,2)+ Math.Pow(Yvector1, 2)))));
-            angle = (290 / Math.PI) * Math.Acos(Math.Cos((Yvector1 * Yvector2 + Xvector2 * Xvector1) / (Math.Sqrt(Math.Pow(Yvector2, 2) + Math.Pow(Xvector2, 2)) * Math.Sqrt(Math.Pow(Xvector1, 2) + Math.Pow(Yvector1, 2)))));
-            //в зависимости от четверти оркужности задаём определённый угл поворота
-            if (emitter.X < picDisplay.Width / 2 & emitter.Y > picDisplay.Height / 2)
-            {
-                emitter.Direction = -(int)(angle);
-            }
-            if (emitter.X < picDisplay.Width / 2 & emitter.Y < picDisplay.Height / 2)
-            {
-                emitter.Direction = 180 + (int)(angle);
-            }
-            if (emitter.X > picDisplay.Width / 2 & emitter.Y < picDisplay.Height / 2)
-            {
-                emitter.Direction = 180 - (int)(angle);
-            }
-            if (emitter.X > picDisplay.Width / 2 & emitter.Y > picDisplay.Height / 2)
-            {
-                emitter.Direction = (int)(angle);
-            }
-            emitter.Spreading = 100;
-
-        }
-
-            private void pictureBox1_Click(object sender, EventArgs e)
+     
+       private void pictureBox1_Click(object sender, EventArgs e)
         {
 
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (task == 1)
-            {
-                
-
-            }
 
             if (task == 4)
             {
                 emitter.UpdateState(); // каждый тик обновляем систему
-                
+
                 using (var g = Graphics.FromImage(picDisplay.Image))
                 {
-                   
-                        if (portal != null)
+
+                    if (portal != null)
+                    {
+
+                        foreach (var particle in emitter.particles)
                         {
-
-                            foreach (var particle in emitter.particles)
-                            {
-                                portal.Overlap(particle);
-                            }
-                            g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
-                            emitter.Render(g);
-                            portal.Draw(g);  // рендерим систему
-
-
+                            portal.Overlap(particle);
                         }
-                    
+                        g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
+                        emitter.Render(g);
+                        portal.Draw(g);  // рендерим систему
+
+
+                    }
+
                     picDisplay.Invalidate();
 
                 }
             }
-            if(task == 5)
+            if (task == 5)
             {
-               
+
                 emitter2.UpdateState();
                 using (var g = Graphics.FromImage(picDisplay.Image))
                 {
@@ -229,17 +176,73 @@ namespace WindowsFormsApp1
                     }
                     g.Clear(Color.Black);
                     emitter2.Render(g);
-                    foreach (var circle in circles) {
+                    foreach (var circle in circles)
+                    {
                         circle.Render(g);
 
                     }
                     //emitter2.Render(g);
                     picDisplay.Invalidate();
                 }
-              
+
+            }
+            if (task == 8)
+            {
+                emitter3.UpdateState();
+                using (var g = Graphics.FromImage(picDisplay.Image))
+                {
+
+                    g.Clear(Color.Black);
+                    /*if (Math.Pow(emitter3.X - radar.X, 2) + Math.Pow(emitter3.Y - radar.Y, 2) < Math.Pow(radar.R / 2, 2))
+                    {
+                        emitter3.ColorFrom = Color.Black; ;
+                        emitter3.ColorTo = Color.FromArgb(0, Color.Black);
+                    }
+                    else
+                    {
+                        emitter3.ColorFrom = Color.Gold;
+                        emitter3.ColorTo = Color.FromArgb(0, Color.Red);
+                    }*/
+                    foreach (var particle in emitter3.particles)
+                    {
+                        radar.ImpactParticle(particle);
+                        /*if (Math.Pow(emitter3.X - radar.X, 2) + Math.Pow(emitter3.Y - radar.Y, 2) < Math.Pow(radar.R / 2, 2))
+                        {
+                            emitter3.ColorFrom = Color.Red;
+                            emitter3.ColorTo = Color.FromArgb(0, Color.Black);
+                        }
+                        else
+                        {
+                            emitter3.ColorFrom = Color.Gold;
+                            emitter3.ColorTo = Color.FromArgb(0, Color.Red);
+                        }*/
+                    }
+                    emitter3.Render(g);
+                    radar.Render(g);
+                    picDisplay.Invalidate();
+                    // emitter3.UpdateState(); // каждый тик обновляем систему
+
+                    /*using (var g = Graphics.FromImage(picDisplay.Image))
+                    {
+                        /* if (Math.Pow(emitter3.X - radar.X, 2) + Math.Pow(emitter3.Y - radar.Y, 2) < Math.Pow(radar.R / 2, 2))
+                         {
+                             emitter3.ColorFrom = Color.Red ;
+                             emitter3.ColorTo = Color.FromArgb(0, Color.Black);
+                         }
+                         else
+                         {
+                             emitter3.ColorFrom = Color.Gold;
+                             emitter3.ColorTo = Color.FromArgb(0, Color.Red);
+                         }
+                        g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
+                        radar.Render(g);
+                        emitter3.Render(g);
+                        radar.Render(g);
+                    }*/
+                }
+
             }
         }
-
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
         {
             /* // это не трогаем
@@ -289,6 +292,43 @@ namespace WindowsFormsApp1
                     }
                 }
             }
+            if (task == 8)
+            {
+                radar.X = e.X;
+                radar.Y = e.Y;
+                /*if (e.Delta > 0)
+                {
+                    radar.R = radar.R + 5;
+                }
+
+                else
+                {
+                    //минимальный радиус для предотвращения вырождения круга
+                    if (radar.R > 30)
+                    {
+                        radar.R = radar.R - 5;
+                    }
+
+                }*/
+
+            }
+        }
+        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                radar.R = radar.R + 5;
+            }
+
+            else
+            {
+                //минимальный радиус для предотвращения вырождения круга
+                if (radar.R > 30)
+                {
+                    radar.R = radar.R - 5;
+                }
+
+            }
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -302,6 +342,11 @@ namespace WindowsFormsApp1
             if(task == 5)
             {
                 emitter2.Spreading = tbSpreading.Value;
+                lblSpreading.Text = tbSpreading.Value.ToString();
+            }
+            if (task == 8)
+            {
+                emitter3.Spreading = tbSpreading.Value;
                 lblSpreading.Text = tbSpreading.Value.ToString();
             }
         }
@@ -325,6 +370,11 @@ namespace WindowsFormsApp1
                 emitter2.Direction = tbDirection.Value;
                 lblDirection.Text = tbDirection.Value.ToString();
             }
+            if (task == 8)
+            {
+                emitter3.Direction = tbDirection.Value;
+                lblDirection.Text = tbDirection.Value.ToString();
+            }
         }
 
         private void trackBar1_Scroll_2(object sender, EventArgs e)
@@ -342,6 +392,13 @@ namespace WindowsFormsApp1
                 //минимальная скорость = 20% от максимальной
                 emitter2.SpeedMin = (int)(tbSpeed.Value * 0.2f);
                 emitter2.SpeedMax = tbSpeed.Value;
+                lblSpeed.Text = tbSpeed.Value.ToString();
+            }
+            if (task == 8)
+            {
+                //минимальная скорость = 20% от максимальной
+                emitter3.SpeedMin = (int)(tbSpeed.Value * 0.2f);
+                emitter3.SpeedMax = tbSpeed.Value;
                 lblSpeed.Text = tbSpeed.Value.ToString();
             }
         }
@@ -362,7 +419,12 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            task = 1;
+            task = 8;
+            button3.Visible = false;
+            label5.Visible = false;
+            lblY.Visible = false;
+            tbRadiusPortal.Visible = false;
+            lblRadiusPortal.Visible = false;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -412,6 +474,13 @@ namespace WindowsFormsApp1
                 emitter2.LifeMax = tbLife.Value;
                 lblLife.Text = tbLife.Value.ToString();
             }
+            if (task == 8)
+            {
+                //минимальная продолжительность жизни = 25% от максимума
+                emitter3.LifeMin = tbLife.Value / 2;
+                emitter3.LifeMax = tbLife.Value;
+                lblLife.Text = tbLife.Value.ToString();
+            }
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
@@ -454,6 +523,11 @@ namespace WindowsFormsApp1
             if (task == 5)
             {
                 emitter2.ParticlesPerTick = tbTick.Value;
+                lblTick.Text = tbTick.Value.ToString();
+            }
+            if (task == 8)
+            {
+                emitter3.ParticlesPerTick = tbTick.Value;
                 lblTick.Text = tbTick.Value.ToString();
             }
         }
