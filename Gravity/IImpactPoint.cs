@@ -60,4 +60,42 @@ namespace WindowsFormsApp1
 
         }
     }
+
+    public class Radar : IImpactPoint
+    {
+        public int R; 
+        public int count = 0;
+        public override void Render(Graphics g)
+        {
+
+            g.DrawEllipse(new Pen(Color.Black, 4), X - R / 2, Y - R / 2, R, R);
+            var stringFormat = new StringFormat(); // создаем экземпляр класса
+            stringFormat.Alignment = StringAlignment.Center; // выравнивание по горизонтали
+            stringFormat.LineAlignment = StringAlignment.Center; // выравнивание по вертикали
+            //выводим количество частиц
+            g.DrawString($"{count}", new Font("Verdana", 20), new SolidBrush(Color.Black), X, Y, stringFormat);
+
+        }
+
+        public override void ImpactParticle(Particle particle)
+        {
+            float gX = X - particle.X;
+            float gY = Y - particle.Y;
+            double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
+                                                     //меняем цвет частицы на исходный
+            (particle as ParticleColorful).FromColor = Color.Gold;
+            (particle as ParticleColorful).ToColor = Color.FromArgb(0, Color.Red);
+
+            if (r + particle.Radius < R / 2)  // если частица оказалось внутри окружности            
+            {
+                //меняем её цвет
+                (particle as ParticleColorful).FromColor = Color.Red;
+                (particle as ParticleColorful).ToColor = Color.FromArgb(0, Color.Black);
+                //увеличиваем счётчик
+                count++;
+            }
+
+
+        }
+    }
 }

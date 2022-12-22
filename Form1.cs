@@ -18,14 +18,15 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-       
+
         public int task = 0;
         List<Emitter> emitters = new List<Emitter>();
         List<Circle> circles = new List<Circle>();
         Emitter emitter; // добавим поле для эмиттера
         TopEmitter emitter2; // добавим поле для эмиттера
+        Emitter emitter3; // добавим поле для эмиттера
         Portal portal = null;
-
+        Circle circle1;
 
 
         //  GravityPoint point1; // добавил поле под первую точку
@@ -96,63 +97,95 @@ namespace WindowsFormsApp1
                 radius = 35,
                 color = Color.Pink
             });
+            circle1 = (new Circle
+            {
+                X = picDisplay.Width / 2,
+                Y = picDisplay.Height / 2,
+                radius = 100,
+                color = Color.Pink
+            });
+            emitter3 = new Emitter // создаю эмиттер и привязываю его к полю emitter
+            {
+                Direction = 0,
+                Spreading = 10,
+                SpeedMin = 10,
+                SpeedMax = 10,
+                //   ColorFrom = Color.Gold,
+                //ColorFrom = Color.BlueViolet,
+                // ColorTo = Color.FromArgb(0, Color.AliceBlue),
+                ColorFrom = Color.Gold,
+                ColorTo = Color.FromArgb(0, Color.Red),
+                //  ColorFrom = Color.Pink,
+                //  ColorTo = Color.FromArgb(0, Color.),
+                ParticlesPerTick = 1,
+                X = picDisplay.Width / 2,
+                Y = picDisplay.Height / 2 + Ycirlce / 2,
+            };
+        }
+        int Xcirlce = 100;
+        int Ycirlce = 100;
+
+        private void task1(Graphics g)
+        {
+            int Xvector1, Xvector2, Yvector1, Yvector2;
+            double angle;
+            int tb1 = 3, tb2 = 3, t5b = 1;
+            int Xcirlce = 100;
+            int Ycirlce = 100;
+            double pos = 1, speed = 0.1, m, n;
+            //emitter.GravitationY = (float)(0.5);
+            //tbdValue1 = tbDirection.Value;
+            //speedV1 = speedBar.Value;
+            //tb1 = trackBar2.Value;
+
+            g.DrawEllipse(new Pen(Color.LightCoral, 4), picDisplay.Width / 2 - Xcirlce / 2, picDisplay.Height / 2 - Ycirlce / 2 + 1, Xcirlce, Ycirlce);
+            pos = pos + speed;
+
+            emitter.X = (int)(picDisplay.Width / 2 + Xcirlce / 2 * Math.Cos(pos));
+            emitter.Y = (int)(picDisplay.Height / 2 + Ycirlce / 2 * Math.Sin(pos));
+            //координаты вектора радиуса
+            Xvector1 = picDisplay.Width / 2 - emitter.X;
+            Yvector1 = picDisplay.Height / 2 - emitter.Y;
+            //координаты вектора касательной
+            //   x = 0-(emitter.Y - picDisplay.Height / 2);
+            //   y = emitter.X - picDisplay.Width / 2;
+            Yvector2 = -5;
+            Xvector2 = 5 - emitter.Y;
+            //  angle = (180 /Math.PI)*Math.Acos(Math.Cos((Yvector1*Yvector2)/(Math.Sqrt(Math.Pow(Yvector2, 2) )* Math.Sqrt(Math.Pow(Xvector1,2)+ Math.Pow(Yvector1, 2)))));
+            angle = (290 / Math.PI) * Math.Acos(Math.Cos((Yvector1 * Yvector2 + Xvector2 * Xvector1) / (Math.Sqrt(Math.Pow(Yvector2, 2) + Math.Pow(Xvector2, 2)) * Math.Sqrt(Math.Pow(Xvector1, 2) + Math.Pow(Yvector1, 2)))));
+            //в зависимости от четверти оркужности задаём определённый угл поворота
+            if (emitter.X < picDisplay.Width / 2 & emitter.Y > picDisplay.Height / 2)
+            {
+                emitter.Direction = -(int)(angle);
+            }
+            if (emitter.X < picDisplay.Width / 2 & emitter.Y < picDisplay.Height / 2)
+            {
+                emitter.Direction = 180 + (int)(angle);
+            }
+            if (emitter.X > picDisplay.Width / 2 & emitter.Y < picDisplay.Height / 2)
+            {
+                emitter.Direction = 180 - (int)(angle);
+            }
+            if (emitter.X > picDisplay.Width / 2 & emitter.Y > picDisplay.Height / 2)
+            {
+                emitter.Direction = (int)(angle);
+            }
+            emitter.Spreading = 100;
 
         }
 
-        
-
-    /* private void task1(Graphics g)
-     {
-         int Xvector1, Xvector2, Yvector1, Yvector2;
-
-         tbdValue1 = tbDirection.Value;
-         speedV1 = speedBar.Value;
-         tb1 = trackBar2.Value;
-
-         g.DrawEllipse(new Pen(Color.LightCoral, 4), picDisplay.Width / 2 - Xcirlce / 2, picDisplay.Height / 2 - Ycirlce / 2 + 1, Xcirlce, Ycirlce);
-         pos = pos + speed;
-
-         emitter.X = (int)(picDisplay.Width / 2 + Xcirlce / 2 * Math.Cos(pos));
-         emitter.Y = (int)(picDisplay.Height / 2 + Ycirlce / 2 * Math.Sin(pos));
-         //координаты вектора радиуса
-         Xvector1 = picDisplay.Width / 2 - emitter.X;
-         Yvector1 = picDisplay.Height / 2 - emitter.Y;
-         //координаты вектора касательной
-         //   x = 0-(emitter.Y - picDisplay.Height / 2);
-         //   y = emitter.X - picDisplay.Width / 2;
-         Yvector2 = -5;
-         Xvector2 = 5 - emitter.Y;
-         //  angle = (180 /Math.PI)*Math.Acos(Math.Cos((Yvector1*Yvector2)/(Math.Sqrt(Math.Pow(Yvector2, 2) )* Math.Sqrt(Math.Pow(Xvector1,2)+ Math.Pow(Yvector1, 2)))));
-         angle = (290 / Math.PI) * Math.Acos(Math.Cos((Yvector1 * Yvector2 + Xvector2 * Xvector1) / (Math.Sqrt(Math.Pow(Yvector2, 2) + Math.Pow(Xvector2, 2)) * Math.Sqrt(Math.Pow(Xvector1, 2) + Math.Pow(Yvector1, 2)))));
-         //в зависимости от четверти оркужности задаём определённый угл поворота
-         if (emitter.X < picDisplay.Width / 2 & emitter.Y > picDisplay.Height / 2)
-         {
-             emitter.Direction = -(int)(angle);
-         }
-         if (emitter.X < picDisplay.Width / 2 & emitter.Y < picDisplay.Height / 2)
-         {
-             emitter.Direction = 180 + (int)(angle);
-         }
-         if (emitter.X > picDisplay.Width / 2 & emitter.Y < picDisplay.Height / 2)
-         {
-             emitter.Direction = 180 - (int)(angle);
-         }
-         if (emitter.X > picDisplay.Width / 2 & emitter.Y > picDisplay.Height / 2)
-         {
-             emitter.Direction = (int)(angle);
-         }
-         emitter.Spreading = 100;
-
-
-     }*/
-
-    private void pictureBox1_Click(object sender, EventArgs e)
+            private void pictureBox1_Click(object sender, EventArgs e)
         {
 
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (task == 1)
+            {
+                
+
+            }
 
             if (task == 4)
             {
@@ -329,7 +362,7 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            task = 1;
         }
 
         private void label1_Click(object sender, EventArgs e)
