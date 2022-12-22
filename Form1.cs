@@ -26,6 +26,7 @@ namespace WindowsFormsApp1
         Emitter emitter; // добавим поле для эмиттера
         TopEmitter emitter2; // добавим поле для эмиттера
         Emitter emitter3; // добавим поле для эмиттера
+        Emitter emitter4; // добавим поле для эмиттера
         Portal portal = null;
         Radar radar;
 
@@ -123,7 +124,24 @@ namespace WindowsFormsApp1
                 Y = picDisplay.Height / 2,
 
             };
-            
+            emitter4 = new Emitter
+            {
+                Direction = 90,
+                Spreading = 90,
+                SpeedMin = 8,
+                SpeedMax = 25,
+                ParticlesPerTick = 10,
+                LifeMax = 120,
+
+                //       ColorFrom = Color.Gold,
+                ColorFrom = Color.Gold,
+                ColorTo = Color.FromArgb(0, Color.Red),
+
+                X = picDisplay.Width / 2,
+                Y = picDisplay.Height / 2,
+
+            };
+
         }
      
        private void pictureBox1_Click(object sender, EventArgs e)
@@ -158,6 +176,25 @@ namespace WindowsFormsApp1
                     picDisplay.Invalidate();
 
                 }
+            }
+            if (task == 2)
+            {
+                emitter4.UpdateState(); // каждый тик обновляем систему
+
+                using (var g = Graphics.FromImage(picDisplay.Image))
+                {
+
+                    
+                        g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
+                        emitter4.Render(g);
+                       
+
+
+                 }
+
+                    picDisplay.Invalidate();
+
+               
             }
             if (task == 5)
             {
@@ -339,7 +376,12 @@ namespace WindowsFormsApp1
                 emitter.Spreading = tbSpreading.Value;
                 lblSpreading.Text = tbSpreading.Value.ToString();
             }
-            if(task == 5)
+            if (task == 2)
+            {
+                emitter4.Spreading = tbSpreading.Value;
+                lblSpreading.Text = tbSpreading.Value.ToString();
+            }
+            if (task == 5)
             {
                 emitter2.Spreading = tbSpreading.Value;
                 lblSpreading.Text = tbSpreading.Value.ToString();
@@ -364,6 +406,11 @@ namespace WindowsFormsApp1
                 emitter.Direction = tbDirection.Value;
                 lblDirection.Text = tbDirection.Value.ToString();
             }
+            if (task == 2)
+            {
+                emitter4.Direction = tbDirection.Value;
+                lblDirection.Text = tbDirection.Value.ToString();
+            }
 
             if (task == 5)
             {
@@ -379,7 +426,13 @@ namespace WindowsFormsApp1
 
         private void trackBar1_Scroll_2(object sender, EventArgs e)
         {
-
+            if (task == 2)
+            {
+                //минимальная скорость = 20% от максимальной
+                emitter4.SpeedMin = (int)(tbSpeed.Value * 0.2f);
+                emitter4.SpeedMax = tbSpeed.Value;
+                lblSpeed.Text = tbSpeed.Value.ToString();
+            }
             if (task == 4)
             {
                 //минимальная скорость = 20% от максимальной
@@ -405,7 +458,12 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            task = 2;
+            button3.Visible = false;
+            label5.Visible = false;
+            lblY.Visible = false;
+            tbRadiusPortal.Visible = false;
+            lblRadiusPortal.Visible = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -467,6 +525,13 @@ namespace WindowsFormsApp1
                 emitter.LifeMax = tbLife.Value;
                 lblLife.Text = tbLife.Value.ToString();
             }
+            if (task == 2)
+            {
+                //минимальная продолжительность жизни = 25% от максимума
+                emitter4.LifeMin = tbLife.Value / 4;
+                emitter4.LifeMax = tbLife.Value;
+                lblLife.Text = tbLife.Value.ToString();
+            }
             if (task == 5)
             {
                 //минимальная продолжительность жизни = 25% от максимума
@@ -518,6 +583,11 @@ namespace WindowsFormsApp1
             if (task == 4)
             {
                 emitter.ParticlesPerTick = tbTick.Value;
+                lblTick.Text = tbTick.Value.ToString();
+            }
+            if (task == 2)
+            {
+                emitter4.ParticlesPerTick = tbTick.Value;
                 lblTick.Text = tbTick.Value.ToString();
             }
             if (task == 5)
