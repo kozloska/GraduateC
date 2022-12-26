@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WindowsFormsApp1.Gravity;
+
 using WindowsFormsApp1.ob;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -20,25 +20,28 @@ namespace WindowsFormsApp1
     public partial class Form1 : Form
     {
 
-        public int task = 0;
+        public int task = 2;
         List<Emitter> emitters = new List<Emitter>();
         List<Circle> circles = new List<Circle>();
-        Emitter emitter; // добавим поле для эмиттера
+        Emitter emitter; // добавим поле для эмиттера 
         TopEmitter emitter2; // добавим поле для эмиттера
         Emitter emitter3; // добавим поле для эмиттера
         Emitter emitter4; // добавим поле для эмиттера
-        Portal portal = null;
-        Radar radar;
-
-
-
-        //  GravityPoint point1; // добавил поле под первую точку
-        //GravityPoint point2; // добавил поле под вторую точку
-
+        Portal portal = null; // добавим поле для портала задание 4
+        Radar radar;//добавим поле для радара задние 8
 
         public Form1()
         {
             InitializeComponent();
+            if(task == 2)
+            {
+                button3.Visible = false;
+                label5.Visible = false;
+                lblY.Visible = false;
+                tbRadiusPortal.Visible = false;
+                lblRadiusPortal.Visible = false;
+                button3.Visible = false;
+            }
 
             // привязал изображение
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
@@ -56,14 +59,13 @@ namespace WindowsFormsApp1
                 X = picDisplay.Width / 2,
                 Y = picDisplay.Height / 2,
             };
-            emitter2 = new TopEmitter
+            emitter2 = new TopEmitter// создаю эмиттер и привязываю его к полю emitter2
             {
                 Width = picDisplay.Width,
                 GravitationY = 0.25f
             };
             emitters.Add(this.emitter2);
-
-            circles.Add(new Circle
+            circles.Add(new Circle   // создаю круг и привязываю его к листу
             {
                 X = 70,
                 Y = 50,
@@ -71,7 +73,7 @@ namespace WindowsFormsApp1
                 color = Color.Yellow
             });
 
-            circles.Add(new Circle
+            circles.Add(new Circle  //создаю круг и привязываю его к листу
             {
                 X = 170,
                 Y = 50,
@@ -79,14 +81,14 @@ namespace WindowsFormsApp1
                 color = Color.Red
             });
 
-            circles.Add(new Circle
+            circles.Add(new Circle  //создаю круг и привязываю его к листу
             {
                 X = 270,
                 Y = 50,
                 radius = 35,
                 color = Color.Blue
             });
-            circles.Add(new Circle
+            circles.Add(new Circle  //создаю круг и привязываю его к листу
             {
                 X = 370,
                 Y = 50,
@@ -94,20 +96,20 @@ namespace WindowsFormsApp1
                 color = Color.Green
             });
 
-            circles.Add(new Circle
+            circles.Add(new Circle  //создаю круг и привязываю его к листу
             {
                 X = 470,
                 Y = 50,
                 radius = 35,
                 color = Color.Pink
             });
-            radar = new Radar
+            radar = new Radar   //создаю радар 
             {
                 X = 50,
                 Y = 50,
                 R = 75,
             };
-            emitter3 = new Emitter
+            emitter3 = new Emitter // создаю эмиттер и привязываю его к полю emitter3
             {
                 Direction = 90,
                 Spreading = 90,
@@ -115,16 +117,13 @@ namespace WindowsFormsApp1
                 SpeedMax = 25,
                 ParticlesPerTick = 10,
                 LifeMax = 120,
-
-                //       ColorFrom = Color.Gold,
                 ColorFrom = Color.Gold,
                 ColorTo = Color.FromArgb(0, Color.Red),
-
                 X = picDisplay.Width / 2,
                 Y = picDisplay.Height / 2,
 
             };
-            emitter4 = new Emitter
+            emitter4 = new Emitter // создаю эмиттер и привязываю его к полю emitter4
             {
                 Direction = 90,
                 Spreading = 90,
@@ -149,24 +148,24 @@ namespace WindowsFormsApp1
 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e) // метод таймера
         {
 
-            if (task == 4)
+            if (task == 4) // если задание номер 4
             {
                 emitter.UpdateState(); // каждый тик обновляем систему
 
                 using (var g = Graphics.FromImage(picDisplay.Image))
                 {
 
-                    if (portal != null)
+                    if (portal != null) 
                     {
 
                         foreach (var particle in emitter.particles)
                         {
                             portal.Overlap(particle);
                         }
-                        g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
+                        g.Clear(Color.Black); // ЧЕРНЫЙ ФОН 
                         emitter.Render(g);
                         portal.Draw(g);  // рендерим систему
 
@@ -177,33 +176,25 @@ namespace WindowsFormsApp1
 
                 }
             }
-            if (task == 2)
+
+            if (task == 2) // если задание номер 2
             {
                 emitter4.UpdateState(); // каждый тик обновляем систему
 
                 using (var g = Graphics.FromImage(picDisplay.Image))
                 {
-
-                    
-                        g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
+                        g.Clear(Color.Black); // ЧЕРНЫЙ ФОН 
                         emitter4.Render(g);
-                       
+                }
+                picDisplay.Invalidate();
 
-
-                 }
-
-                    picDisplay.Invalidate();
-
-               
             }
-            if (task == 5)
+            if (task == 5) // если задание номер 5
             {
 
-                emitter2.UpdateState();
+                emitter2.UpdateState();// каждый тик обновляем систему
                 using (var g = Graphics.FromImage(picDisplay.Image))
                 {
-                    //emitter2.Render(g);
-                    //ColorFrom = Color.White;
                     foreach (var circle in circles)
                     {
                         foreach (var particle in emitter2.particles)
@@ -211,93 +202,42 @@ namespace WindowsFormsApp1
                             circle.ImpactParticle(particle);
                         }
                     }
-                    g.Clear(Color.Black);
+                    g.Clear(Color.Black);//чёрный фон
                     emitter2.Render(g);
                     foreach (var circle in circles)
                     {
                         circle.Render(g);
 
                     }
-                    //emitter2.Render(g);
                     picDisplay.Invalidate();
                 }
 
             }
-            if (task == 8)
+            if (task == 8) // если задание 8
             {
-                emitter3.UpdateState();
+                emitter3.UpdateState();// каждый тик обновляем систему
                 using (var g = Graphics.FromImage(picDisplay.Image))
                 {
-
                     g.Clear(Color.Black);
-                    /*if (Math.Pow(emitter3.X - radar.X, 2) + Math.Pow(emitter3.Y - radar.Y, 2) < Math.Pow(radar.R / 2, 2))
-                    {
-                        emitter3.ColorFrom = Color.Black; ;
-                        emitter3.ColorTo = Color.FromArgb(0, Color.Black);
-                    }
-                    else
-                    {
-                        emitter3.ColorFrom = Color.Gold;
-                        emitter3.ColorTo = Color.FromArgb(0, Color.Red);
-                    }*/
                     foreach (var particle in emitter3.particles)
                     {
                         radar.ImpactParticle(particle);
-                        /*if (Math.Pow(emitter3.X - radar.X, 2) + Math.Pow(emitter3.Y - radar.Y, 2) < Math.Pow(radar.R / 2, 2))
-                        {
-                            emitter3.ColorFrom = Color.Red;
-                            emitter3.ColorTo = Color.FromArgb(0, Color.Black);
-                        }
-                        else
-                        {
-                            emitter3.ColorFrom = Color.Gold;
-                            emitter3.ColorTo = Color.FromArgb(0, Color.Red);
-                        }*/
                     }
                     emitter3.Render(g);
                     radar.Render(g);
                     picDisplay.Invalidate();
-                    // emitter3.UpdateState(); // каждый тик обновляем систему
-
-                    /*using (var g = Graphics.FromImage(picDisplay.Image))
-                    {
-                        /* if (Math.Pow(emitter3.X - radar.X, 2) + Math.Pow(emitter3.Y - radar.Y, 2) < Math.Pow(radar.R / 2, 2))
-                         {
-                             emitter3.ColorFrom = Color.Red ;
-                             emitter3.ColorTo = Color.FromArgb(0, Color.Black);
-                         }
-                         else
-                         {
-                             emitter3.ColorFrom = Color.Gold;
-                             emitter3.ColorTo = Color.FromArgb(0, Color.Red);
-                         }
-                        g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
-                        radar.Render(g);
-                        emitter3.Render(g);
-                        radar.Render(g);
-                    }*/
                 }
 
             }
         }
-        private void picDisplay_MouseMove(object sender, MouseEventArgs e)
+        private void picDisplay_MouseMove(object sender, MouseEventArgs e) // метод действия мышки
         {
-            /* // это не трогаем
-             foreach (var emitter in emitters)
-             {
-                 emitter.MousePositionX = e.X;
-                 emitter.MousePositionY = e.Y;
-             }
-
-             // а тут передаем положение мыши, в положение гравитона
-             point2.X = e.X;
-             point2.Y = e.Y;*/
-            if (task == 4)
+            if (task == 4)// если задание номер 4
             {
                 //если портал не создан
                 if (portal == null)
                 {
-                    portal = new Portal()
+                    portal = new Portal() // координаты портала равны курсору
                     {
                         input = new Point(e.X, e.Y),
                         output = new Point(e.X, e.Y),
@@ -329,34 +269,18 @@ namespace WindowsFormsApp1
                     }
                 }
             }
-            if (task == 8)
+            if (task == 8) // если задание номер 8
             {
-                radar.X = e.X;
+                radar.X = e.X;//координаты радара равны координатам курсора мышки
                 radar.Y = e.Y;
-                /*if (e.Delta > 0)
-                {
-                    radar.R = radar.R + 5;
-                }
-
-                else
-                {
-                    //минимальный радиус для предотвращения вырождения круга
-                    if (radar.R > 30)
-                    {
-                        radar.R = radar.R - 5;
-                    }
-
-                }*/
-
             }
         }
-        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
+        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)//увеличение радиуса окружности радара 
         {
             if (e.Delta > 0)
             {
                 radar.R = radar.R + 5;
             }
-
             else
             {
                 //минимальный радиус для предотвращения вырождения круга
@@ -364,11 +288,10 @@ namespace WindowsFormsApp1
                 {
                     radar.R = radar.R - 5;
                 }
-
             }
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void trackBar1_Scroll(object sender, EventArgs e) //изменение разброса направления частиц эмиттера
         {
 
             if (task == 4)
@@ -398,7 +321,7 @@ namespace WindowsFormsApp1
 
         }
 
-        private void trackBar1_Scroll_1(object sender, EventArgs e)
+        private void trackBar1_Scroll_1(object sender, EventArgs e)//изменение направления частиц эмиттера
         {
 
             if (task == 4)
@@ -424,7 +347,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void trackBar1_Scroll_2(object sender, EventArgs e)
+        private void trackBar1_Scroll_2(object sender, EventArgs e)//изменение скорости частиц эмиттера
         {
             if (task == 2)
             {
@@ -456,7 +379,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) // выполнение задания номер 2
         {
             task = 2;
             button3.Visible = false;
@@ -464,18 +387,20 @@ namespace WindowsFormsApp1
             lblY.Visible = false;
             tbRadiusPortal.Visible = false;
             lblRadiusPortal.Visible = false;
+            button3.Visible = false;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e) // выполнение задания номер 4
         {
             task = 4;
             button3.Text = "Выбрать цвет портала";
             tbY.Visible = false;
             lblY.Visible = false;
+            button3.Visible = true;
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)//выполнение задания номер 8
         {
             task = 8;
             button3.Visible = false;
@@ -515,9 +440,8 @@ namespace WindowsFormsApp1
 
         }
 
-        private void trackBar1_Scroll_3(object sender, EventArgs e)
+        private void trackBar1_Scroll_3(object sender, EventArgs e)//изменение времени жизни частиц эмиттера
         {
-
             if (task == 4)
             {
                 //минимальная продолжительность жизни = 25% от максимума
@@ -548,7 +472,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void trackBar2_Scroll(object sender, EventArgs e)
+        private void trackBar2_Scroll(object sender, EventArgs e) //изменение радиуса круга и портала
         {
             if (task == 4)
             {
@@ -569,7 +493,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void label6_Click_1(object sender, EventArgs e)
+        private void label6_Click_1(object sender, EventArgs e) 
         {
             if (task == 4)
             {
@@ -578,7 +502,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void tbTick_Scroll(object sender, EventArgs e)
+        private void tbTick_Scroll(object sender, EventArgs e)//изменение количества частиц эмиттера
         {
             if (task == 4)
             {
@@ -608,7 +532,7 @@ namespace WindowsFormsApp1
             
         }
 
-        private void button3_Click_2(object sender, EventArgs e)
+        private void button3_Click_2(object sender, EventArgs e) // выбор палитры для задания 4 и 5
         {
 
             if (task == 4)
@@ -623,13 +547,18 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e)//выполнить задание номер 5
         {
+
+            emitter2.task = 5;
             task = 5;
-            emitter2.task = 2;
             button3.Text = "Выбрать цвет снега";
             tbY.Visible = true;
             lblY.Visible = true;
+            tbRadiusPortal.Visible = true;
+            lblRadiusPortal.Visible = true;
+            label5.Visible = true;
+            button3.Visible = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -642,7 +571,7 @@ namespace WindowsFormsApp1
 
         }
 
-        private void tbY_Scroll(object sender, EventArgs e)
+        private void tbY_Scroll(object sender, EventArgs e) //изменение направления кругов для задания номер 5
         {
             if (task == 5)
             {

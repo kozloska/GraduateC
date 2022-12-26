@@ -10,7 +10,7 @@ namespace WindowsFormsApp1
     public class Emitter
     {
         public int task = 0;
-        public int ParticlesCount = 500;
+        public int ParticlesCount = 800;
         public List<Particle> particles = new List<Particle>();
         public List<IImpactPoint> impactPoints = new List<IImpactPoint>(); // тут буду хранится точки притяжения
         public int MousePositionX;// добавляем переменные для хранения положения мыши
@@ -61,17 +61,16 @@ namespace WindowsFormsApp1
             return particle;
         }
 
-        public void UpdateState()
+        public void UpdateState() // ренедерим 
         {
             int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик
-
 
             foreach (var particle in particles)
             {
                 particle.Life -= 1;
                 if (particle.Life < 0)
                 {
-                    if (task == 2)
+                    if (task == 5)
                     {
                         (particle as ParticleColorful).FromColor = Color.White;
                     }

@@ -30,13 +30,13 @@ namespace WindowsFormsApp1
                 );
         }
     }
-    public class Circle : IImpactPoint
+    public class Circle : IImpactPoint  // класс круга
     {
-        public float radius;
-        public Color color;
+        public float radius; // радиус круга
+        public Color color; // цвет круга
         public Action<Particle> OnCirclelParticle = null;
 
-        public override void Render(Graphics g)
+        public override void Render(Graphics g) // ренедерим круг
         {
             //Нарисовать точку
             g.DrawEllipse(
@@ -47,7 +47,7 @@ namespace WindowsFormsApp1
                    radius
                );
         }
-        public override void ImpactParticle(Particle particle)
+        public override void ImpactParticle(Particle particle)  // пересечение частиц с кругом
         {
             float gX = X - particle.X;
             float gY = Y - particle.Y;
@@ -58,29 +58,25 @@ namespace WindowsFormsApp1
             {
                 (particle as ParticleColorful).FromColor = color;
             }
-
-
         }
     }
 
-    public class Radar : IImpactPoint
+    public class Radar : IImpactPoint // класс радар
     {
-        public int R; 
-        public int count = 0;
+        public int R; //радиус радара
+        public int count = 0; // количество частиц в радаре
         public Action<Particle> DestroyParticle;
-        public override void Render(Graphics g)
+        public override void Render(Graphics g) // ренедерим радар
         {
-
             g.DrawEllipse(new Pen(Color.White, 4), X - R / 2, Y - R / 2, R, R);
             var stringFormat = new StringFormat(); // создаем экземпляр класса
             stringFormat.Alignment = StringAlignment.Center; // выравнивание по горизонтали
             stringFormat.LineAlignment = StringAlignment.Center; // выравнивание по вертикали
             //выводим количество частиц
             g.DrawString($"{count}", new Font("Verdana", 20), new SolidBrush(Color.Green), X, Y, stringFormat);
-
         }
 
-        public override void ImpactParticle(Particle particle)
+        public override void ImpactParticle(Particle particle) //метод для пересечения частицы с радаром
         {
             float gX = X - particle.X;
             float gY = Y - particle.Y;
